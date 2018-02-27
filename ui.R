@@ -6,10 +6,10 @@ dashboardPage(skin="red",
               dashboardSidebar(width=180,
                                sidebarMenu(
                                  menuItem("Welcome",tabName="accueil",icon=icon("home")),
-                                 menuItem("Boxplot Yield",tabName="boxplot",icon=icon("leaf")),
-                                 menuItem("Boxplot N Fertilization",tabName="ferti",icon=icon("bug")),
-                                 menuItem("network",tabName="network",icon=icon("arrows")),
-                                 menuItem("CD",tabName="CD",icon=icon("line-chart")))),
+                                 menuItem("Yield",tabName="boxplot",icon=icon("leaf")),
+                                 menuItem("Nitrogen fertilization",tabName="ferti",icon=icon("bug")),
+                                 menuItem("Network",tabName="network",icon=icon("arrows")),
+                                 menuItem("Direct comparisons",tabName="CD",icon=icon("line-chart")))),
               
               dashboardBody(
                 
@@ -78,7 +78,7 @@ tags$p("Z.mays: Zea mays")
                               uiOutput("categorie"),
                               uiOutput("region")),
                           fluidRow((
-                            box(width=8, status="warning",solidHeader = TRUE,title="boxplot rendement",
+                            box(width=8, status="warning",solidHeader = TRUE,title="yield",
                                 plotOutput("boxplot",height = 600))))
                           
                   ),
@@ -88,7 +88,7 @@ tags$p("Z.mays: Zea mays")
                               uiOutput("categorie1"),
                               uiOutput("region1")),
                           fluidRow((
-                            box(width=8, status="warning",solidHeader = TRUE,title="boxplot ferti",
+                            box(width=8, status="warning",solidHeader = TRUE,title="Fertilization",
                                 plotOutput("ferti",height = 600))))
                   ),
                   
@@ -96,19 +96,19 @@ tags$p("Z.mays: Zea mays")
                           box(width = 3,status="warning",solidHeader = TRUE,background = "black",title="inputs",
                               uiOutput("categorie2"),
                               uiOutput("region2")),
-                             
                           fluidRow((
-                            box(width=8, status="warning",solidHeader = TRUE,title="network",
+                            box(width=8, status="warning",solidHeader = TRUE,title="Network",
                                 plotOutput("network",height = 600))))
                   ),
                   
                   
                   tabItem("CD",
                           box(width = 3,status="warning",solidHeader = TRUE,background = "black",title="inputs",
-                              uiOutput("categorie3")),
+                              uiOutput("categorie3"),
+                              uiOutput("region3")),
                           
                           fluidRow((
-                            box(width=8, status="warning",solidHeader = TRUE,title="direct comparisons",
+                            box(width=12, status="warning",solidHeader = TRUE,title="Direct comparisons",
                                 plotOutput("CD",height = 600))))
                   )
                   

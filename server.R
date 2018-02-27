@@ -1,12 +1,12 @@
 ##server shinydashboard
-library(shinydashboard)
 library(shiny)
-setwd(".")
+library(shinydashboard)
+setwd("./")
 
 
 function(input, output) {
   
-  toto<-read.csv("toto2.csv",sep=";")
+  toto<-read.csv("./toto2.csv",sep=";")
   
   output$categorie<-renderUI({
     selectInput("categorie", " Please choose a crop categorie:",c("all",unique(as.character(toto$categorie))))
@@ -27,10 +27,12 @@ function(input, output) {
     if (input$region=="all" ){
       pdata=pdata
       med <- sort(with(pdata, tapply(yield, crop, median))) 
+     
+chaine2 <- as.character(length(pdata$yield))
+chaine <- paste("Dataset size : ", chaine2) 
       
       
-      
-      boxplot(yield ~ factor(crop, levels = names(med)),data = pdata,range=0,las=2,cex.axis=1,ylab="Dry biomass (tn.ha-1.year-1)") 
+      boxplot(yield ~ factor(crop, levels = names(med)),data = pdata,cex.main=1,main=chaine,range=0,las=2,cex.axis=1,ylab="Dry biomass (tn.ha-1.year-1)") 
     } else {   
       
       
@@ -39,17 +41,18 @@ function(input, output) {
       pdata$crop<-factor(pdata$crop,exclude=NULL)
       pdata$region<-factor(pdata$region,exclude=NULL)
       med <- sort(with(pdata, tapply(yield, crop, median))) 
-      
-      boxplot(yield ~ factor(crop, levels = names(med)),data = pdata,range=0,las=2,cex.axis=1,ylab="Dry biomass (tn.ha-1.year-1)") 
+     
+chaine2 <- as.character(length(pdata$yield))
+chaine <- paste("Dataset size: ", chaine2) 
+
+      boxplot(yield ~ factor(crop, levels = names(med)),data = pdata,cex.main=1,maine=chaine,range=0,las=2,cex.axis=1,ylab="Dry biomass (tn.ha-1.year-1)") 
     } 
     
   },height=600,width=750) #fin script pour boxplot yield
   
   
-  
-  
   #debut script pour boxplot ferti
-  dosefertiN_shiny<- read.csv("dosefertiN_shiny.csv", sep=";")
+  dosefertiN_shiny<- read.csv("./dosefertiN_shiny.csv", sep=";")
   
   output$categorie1<-renderUI({
     selectInput("categorie1", " choose a crop categorie:",c("all",unique(as.character(dosefertiN_shiny$categorie))))
@@ -70,22 +73,28 @@ function(input, output) {
     if (input$region1=="all" ){
       pdata=pdata
       med <- sort(with(pdata, tapply(doseN, crop, median))) 
-      boxplot(doseN ~ factor(crop, levels = names(med)),data = pdata,range=0,las=2,cex.axis=1,ylab="N rate") 
+chaine2 <- as.character(length(pdata$doseN))
+chaine <- paste("Dataset size: ", chaine2) 
+
+      boxplot(doseN ~ factor(crop, levels = names(med)),data = pdata,cex.main=1,main=chaine,range=0,las=2,cex.axis=1,ylab="N rate") 
     } else {     
       pdata=subset(pdata, region==input$region1)
       pdata$crop<-factor(pdata$crop,exclude=NULL)
       pdata$region<-factor(pdata$region,exclude=NULL)
       med <- sort(with(pdata, tapply(doseN, crop, median))) 
-      boxplot(doseN ~ factor(crop, levels = names(med)),data = pdata,range=0,las=2,cex.axis=1,ylab="N rate")  
+
+chaine2 <- as.character(length(pdata$doseN))
+chaine <- paste("Data size: ", chaine2) 
+
+      boxplot(doseN ~ factor(crop, levels = names(med)),data = pdata,cex.main=1,main=chaine,range=0,las=2,cex.axis=1,ylab="N rate")  
     } 
     
   },height=600,width=750) #fin script pour boxplot ferti
-
   
 
   #debut script pour network
   
-  TAB<- read.csv("fichierdebase.csv",sep=";")
+  TAB<- read.csv("./fichierdebase.csv",sep=";")
   
   output$categorie2<-renderUI({
     selectInput("categorie2", " choose a categorie:",c("Arundo donax",
@@ -111,8 +120,6 @@ function(input, output) {
   })
   
   output$network = renderPlot( {
-    
-    
     sites<-unique(TAB$IDSite); names(sites)<-sites
     garde<-sapply(sites, function(a) {
       toto<-TAB[TAB$IDSite==a,]
@@ -145,18 +152,12 @@ function(input, output) {
         MAT[p,p]<-0  
       }
     }
-    
-    library(qgraph)
-    g<-qgraph(MAT,layout="spring",labels=names(MAT),label.color="black",
-              label.scale=FALSE,label.cex=0.8,posCol="red")
-    
-    
-  },height=600,width=750)
   
-  
+library(qgraph)
+g<-qgraph(MAT,layout="spring",labels=names(MAT),label.color="black", label.scale=FALSE,label.cex=0.8,posCol="red") },height=600,width=750)
+
   #debut script CD
-  
-  TAB<- read.csv("fichierdebase.csv",sep=";")
+  TAB<- read.csv("./fichierdebase.csv",sep=";")
  
   output$categorie3<-renderUI({
     selectInput("categorie3", " choose a categorie:",c("Arundo donax",
@@ -222,7 +223,11 @@ function(input, output) {
     #attention utiliser order et pas sort pour ne pas attribuer une mauvaise valeur ? un nom
     #dotchart(go,labels=NAME,xlim=c(0,2.2), xlab="Yield ratio", pch=19,cex=0.8) 
     par(family="serif",mar=c(5,3, 2,4),oma=c(2,15,2,1))
-    dotchart(go,labels=NA,xlim=c(0,max(gUp)), xlab="Yield ratio", pch=19,cex=0.5,cex.lab=2) 
+
+chaine2 <- as.character(length(TAB$Yield))
+chaine <- paste("Dataset size : ", chaine2)
+
+    dotchart(go,labels=NA,xlim=c(0,max(gUp)), cex.main=2,main=chaine,xlab="Yield ratio", pch=19,cex=0.5,cex.lab=2) 
     mtext(NAME, side=2, at=1:(length(unique(TAB$Crop))-1), las=1, line=0, adj=1, cex=NA,outer=FALSE)
     #boucle pour avoir interval de confiance inferieur(Lo) et superieur (Up)
     for (i in 1:length(go)) {
@@ -232,9 +237,7 @@ function(input, output) {
     
   },height=600,width=750)
   
-  
   #fin script CD
-  
   
 } #derniere accolade
 
