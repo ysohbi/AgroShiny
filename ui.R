@@ -6,7 +6,7 @@ dashboardPage(skin="red",
               dashboardSidebar(width=180,
                                sidebarMenu(
                                  menuItem("Welcome",tabName="accueil",icon=icon("home")),
-                                 menuItem("Yield",tabName="boxplot",icon=icon("leaf")),
+                                 menuItem("Yield distribution",tabName="boxplot",icon=icon("leaf")),
                                  menuItem("Nitrogen fertilization",tabName="ferti",icon=icon("bug")),
                                  menuItem("Network",tabName="network",icon=icon("arrows")),
                                  menuItem("Direct comparisons",tabName="CD",icon=icon("line-chart")))),
